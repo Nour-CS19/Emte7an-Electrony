@@ -361,7 +361,9 @@ const Auth = () => {
         className="auth-left-panel flex-col justify-between"
         style={{ 
           flex: '1.2', 
-          position: 'relative',
+          position: 'sticky',
+          top: '64px', /* Assuming navbar height is around 64px */
+          height: 'calc(100vh - 64px)', /* Fill the screen minus navbar */
           overflow: 'hidden',
           padding: '60px',
           color: '#ffffff'
