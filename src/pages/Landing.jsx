@@ -93,8 +93,8 @@ const Landing = () => {
         </h2>
 
         <div className="grid-cols-4 stagger-children">
-          <Card className="card-interactive">
-            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--brand-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+          <Card className="card-interactive text-center">
+            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--brand-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
               <BookOpen size={24} className="text-brand" />
             </div>
             <h3 className="mb-2" style={{ fontSize: '1rem' }}>إنشاء الامتحانات مجاني</h3>
@@ -103,8 +103,8 @@ const Landing = () => {
             </p>
           </Card>
 
-          <Card className="card-interactive">
-            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--success-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+          <Card className="card-interactive text-center">
+            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--success-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
               <CheckCircle size={24} className="text-success" />
             </div>
             <h3 className="mb-2" style={{ fontSize: '1rem' }}>تصحيح تلقائي فوري</h3>
@@ -113,8 +113,8 @@ const Landing = () => {
             </p>
           </Card>
 
-          <Card className="card-interactive">
-            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--warning-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+          <Card className="card-interactive text-center">
+            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--warning-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
               <Shield size={24} style={{ color: 'var(--warning)' }} />
             </div>
             <h3 className="mb-2" style={{ fontSize: '1rem' }}>أدوات تحدّ من الغش</h3>
@@ -123,8 +123,8 @@ const Landing = () => {
             </p>
           </Card>
 
-          <Card className="card-interactive">
-            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--info-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+          <Card className="card-interactive text-center">
+            <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'var(--info-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
               <Zap size={24} style={{ color: 'var(--info)' }} />
             </div>
             <h3 className="mb-2" style={{ fontSize: '1rem' }}>سريع وسهل</h3>
