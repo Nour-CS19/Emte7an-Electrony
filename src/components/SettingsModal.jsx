@@ -14,12 +14,14 @@ const SettingsModal = ({ isOpen, onClose }) => {
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [phone, setPhone] = useState(profile?.phone || '');
   const [password, setPassword] = useState('');
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
   
   const fileInputRef = useRef(null);
 
   if (!isOpen || !profile) return null;
 
-  const handleAvatarChange = async (e) => {
+  const handleAvatarChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -33,34 +35,8 @@ const SettingsModal = ({ isOpen, onClose }) => {
       return;
     }
 
-    try {
-      setLoading(true);
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}-${Math.random()}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file, { upsert: true });
-
-      if (uploadError) throw uploadError;
-
-      const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
-      
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ avatar_url: data.publicUrl })
-        .eq('id', user.id);
-
-      if (updateError) throw updateError;
-
-      toast.success('تم تحديث الصورة بنجاح');
-      updateProfileState({ avatar_url: data.publicUrl });
-      
-    } catch (error) {
-      toast.error(error.message || 'حدث خطأ أثناء رفع الصورة');
-    } finally {
-      setLoading(false);
-    }
+    setAvatarFile(file);
+    setAvatarPreview(URL.createObjectURL(file));
   };
 
   const handleUpdateProfile = async (e) => {
@@ -69,12 +45,28 @@ const SettingsModal = ({ isOpen, onClose }) => {
 
     try {
       setLoading(true);
+      let newAvatarUrl = profile.avatar_url;
+
+      // Upload new avatar if selected
+      if (avatarFile) {
+        const fileExt = avatarFile.name.split('.').pop();
+        const fileName = `${user.id}-${Math.random()}.${fileExt}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(fileName, avatarFile, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
+        newAvatarUrl = data.publicUrl;
+      }
       
       // Update profile info
-      if (fullName !== profile.full_name || phone !== profile.phone) {
+      if (fullName !== profile.full_name || phone !== profile.phone || newAvatarUrl !== profile.avatar_url) {
         const { error } = await supabase
           .from('profiles')
-          .update({ full_name: fullName, phone })
+          .update({ full_name: fullName, phone, avatar_url: newAvatarUrl })
           .eq('id', user.id);
           
         if (error) throw error;
@@ -87,7 +79,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
         if (error) throw error;
       }
 
-      updateProfileState({ full_name: fullName, phone });
+      updateProfileState({ full_name: fullName, phone, avatar_url: newAvatarUrl });
       toast.success('تم حفظ التعديلات بنجاح');
       onClose();
       
@@ -122,7 +114,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '24px' }}>
             <div style={{ position: 'relative', cursor: 'pointer' }} onClick={() => fileInputRef.current?.click()}>
               <img 
-                src={currentAvatar} 
+                src={avatarPreview || currentAvatar} 
                 alt="Profile" 
                 style={{ width: '96px', height: '96px', borderRadius: '50%', objectFit: 'cover', border: '4px solid var(--brand-soft)' }}
               />
