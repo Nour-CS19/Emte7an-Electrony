@@ -31,7 +31,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/" className="brand">
-        <img src="/logo1.jpg" alt="Logo" style={{ height: '36px', width: 'auto', borderRadius: '4px' }} />
+        <BookOpen size={24} className="text-brand" />
         <span>امتحان أونلاين</span>
       </Link>
 
