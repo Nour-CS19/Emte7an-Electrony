@@ -462,12 +462,15 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 100px;
   border: 1px solid var(--border-color);
   min-width: 200px;
+  max-width: 320px;
 }
 
 .user-pill-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1;
+  overflow: hidden;
 }
 
 .user-pill-name {
@@ -475,6 +478,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .user-pill-role {
