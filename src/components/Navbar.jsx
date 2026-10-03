@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/" className="brand">
-        <BookOpen className="brand-icon" size={28} />
+        <img src="/logo1.jpg" alt="Logo" style={{ height: '36px', width: 'auto', borderRadius: '4px' }} />
         <span>امتحان أونلاين</span>
       </Link>
 
@@ -82,12 +82,17 @@ const Navbar = () => {
             </button>
 
             <div className="user-pill">
+              <img 
+                src={`https://api.dicebear.com/7.x/initials/svg?seed=${profile.full_name}&backgroundColor=f26b38`} 
+                alt="Avatar" 
+                style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
+              />
               <div className="user-pill-info">
                 <span className="user-pill-name">
                   {profile.full_name}
                 </span>
                 <span className="user-pill-role">
-                  {profile.is_super_admin ? '🛡️ مدير عام' : (isTeacher ? '👨‍🏫 مدرس' : '👨‍🎓 طالب')}
+                  {profile.is_super_admin ? 'مدير عام' : (isTeacher ? 'مدرس' : 'طالب')}
                 </span>
               </div>
               <button 

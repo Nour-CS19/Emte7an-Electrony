@@ -1428,6 +1428,15 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   gap: 12px;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.dashboard-sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  border-left: none;
+  opacity: 0;
 }
 
 .dashboard-main {
@@ -1435,6 +1444,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 32px;
   overflow-y: auto;
   min-width: 0; /* Prevents overflow from tables */
+  transition: padding 0.3s ease;
 }
 
 @media (max-width: 768px) {

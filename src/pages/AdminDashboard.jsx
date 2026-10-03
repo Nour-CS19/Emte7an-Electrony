@@ -15,6 +15,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('overview'); // overview, users, subscriptions
   
   const [usersPage, setUsersPage] = useState(1);
@@ -172,7 +173,7 @@ const AdminDashboard = () => {
     <div className="dashboard-layout">
       
       {/* Sidebar */}
-      <aside className="dashboard-sidebar">
+      <aside className={`dashboard-sidebar ${isSidebarOpen ? '' : 'collapsed'}`}>
         <div style={{ padding: '0 12px 24px', borderBottom: '1px solid var(--border-color)', marginBottom: '12px' }}>
           <h2 style={{ fontSize: '1.2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--brand-primary)' }}>
             <ShieldCheck size={24} />
@@ -236,7 +237,16 @@ const AdminDashboard = () => {
           
           {activeTab === 'overview' && (
             <div className="animate-fade-in">
-              <h1 className="text-2xl font-bold mb-6">نظرة عامة على المنصة</h1>
+              <div className="flex items-center gap-3 mb-6">
+                <button 
+                  className="btn btn-ghost" 
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  style={{ padding: '8px', color: 'var(--text-muted)' }}
+                >
+                  <Menu size={24} />
+                </button>
+                <h1 className="text-2xl font-bold m-0">نظرة عامة على المنصة</h1>
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '32px' }}>
                 <Card style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <div style={{ background: 'var(--brand-soft)', padding: '12px', borderRadius: '12px', color: 'var(--brand-primary)' }}>

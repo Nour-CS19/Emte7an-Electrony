@@ -17,6 +17,7 @@ const TeacherDashboard = () => {
   const [stats, setStats] = useState({ totalExams: 0, totalSubmissions: 0, avgScore: 0 });
   const [activePlan, setActivePlan] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
   const [examsPage, setExamsPage] = useState(1);
   const itemsPerPage = 10;
@@ -179,7 +180,7 @@ const TeacherDashboard = () => {
     <div className="dashboard-layout">
       
       {/* Sidebar */}
-      <aside className="dashboard-sidebar">
+      <aside className={`dashboard-sidebar ${isSidebarOpen ? '' : 'collapsed'}`}>
         <div style={{ padding: '0 12px 24px', borderBottom: '1px solid var(--border-color)', marginBottom: '12px' }}>
           <h2 style={{ fontSize: '1.2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--brand-primary)' }}>
             <Users size={24} />
@@ -248,8 +249,16 @@ const TeacherDashboard = () => {
           
           {/* Header Actions */}
           <div className="dashboard-header-actions flex justify-between items-center mb-8" style={{ flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <h1 className="text-2xl font-bold mb-1">
+            <div className="flex items-center gap-3">
+              <button 
+                className="btn btn-ghost" 
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                style={{ padding: '8px', color: 'var(--text-muted)' }}
+              >
+                <Menu size={24} />
+              </button>
+              <div>
+                <h1 className="text-2xl font-bold mb-1 m-0">
                 {activeTab === 'overview' ? 'نظرة عامة' : 'امتحاناتي'}
               </h1>
               <p className="text-muted">أهلاً بك مجدداً يا {profile?.full_name.split(' ')[0]}</p>
