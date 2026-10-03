@@ -73,23 +73,27 @@ const Navbar = () => {
               </Link>
             )}
 
-            <button 
-              className="nav-link mobile-only-btn"
-              onClick={() => { setMobileOpen(false); setIsSettingsOpen(true); }}
-              title="إعدادات الحساب"
-            >
-              <Settings size={18} />
-              <span>إعدادات الحساب</span>
-            </button>
-            <button 
-              className="nav-link mobile-only-btn"
-              onClick={handleSignOut} 
-              title="تسجيل الخروج"
-              style={{ color: 'var(--danger)', fontWeight: 'bold' }}
-            >
-              <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
-              <span>تسجيل الخروج</span>
-            </button>
+            {isStudent && (
+              <>
+                <button 
+                  className="nav-link mobile-only-btn"
+                  onClick={() => { setMobileOpen(false); setIsSettingsOpen(true); }}
+                  title="إعدادات الحساب"
+                >
+                  <Settings size={18} />
+                  <span>إعدادات الحساب</span>
+                </button>
+                <button 
+                  className="nav-link mobile-only-btn"
+                  onClick={handleSignOut} 
+                  title="تسجيل الخروج"
+                  style={{ color: 'var(--danger)', fontWeight: 'bold' }}
+                >
+                  <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
+                  <span>تسجيل الخروج</span>
+                </button>
+              </>
+            )}
 
             <div className="user-pill">
               <img 
@@ -105,22 +109,26 @@ const Navbar = () => {
                   {profile.is_super_admin ? 'مدير عام' : (isTeacher ? 'مدرس' : 'طالب')}
                 </span>
               </div>
-              <button 
-                className="user-pill-logout desktop-only-flex"
-                onClick={() => setIsSettingsOpen(true)} 
-                title="إعدادات الحساب"
-                style={{ marginLeft: '4px', color: 'var(--text-muted)' }}
-              >
-                <Settings size={18} />
-              </button>
-              <button 
-                className="user-pill-logout desktop-only-flex"
-                onClick={handleSignOut} 
-                title="تسجيل الخروج"
-                style={{ color: 'var(--danger)' }}
-              >
-                <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
-              </button>
+              {isStudent && (
+                <>
+                  <button 
+                    className="user-pill-logout desktop-only-flex"
+                    onClick={() => setIsSettingsOpen(true)} 
+                    title="إعدادات الحساب"
+                    style={{ marginLeft: '4px', color: 'var(--text-muted)' }}
+                  >
+                    <Settings size={18} />
+                  </button>
+                  <button 
+                    className="user-pill-logout desktop-only-flex"
+                    onClick={handleSignOut} 
+                    title="تسجيل الخروج"
+                    style={{ color: 'var(--danger)' }}
+                  >
+                    <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
+                  </button>
+                </>
+              )}
             </div>
           </>
         ) : (
