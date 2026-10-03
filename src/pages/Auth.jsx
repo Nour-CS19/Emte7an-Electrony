@@ -3,7 +3,7 @@ import { Input, Button } from '../components/ui';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../components/Toast';
-import { Eye, EyeOff, GraduationCap, CheckCircle2 } from 'lucide-react';
+import { Eye, EyeOff, GraduationCap, CheckCircle2, User, BookOpen } from 'lucide-react';
 
 const Auth = () => {
   const location = useLocation();
@@ -150,7 +150,10 @@ const Auth = () => {
                   fontSize: '15px'
                 }}
               >
-                👨‍🏫 حساب مدرس
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  <BookOpen size={18} />
+                  حساب مدرس
+                </div>
               </button>
               <button
                 type="button"
@@ -169,7 +172,10 @@ const Auth = () => {
                   fontSize: '15px'
                 }}
               >
-                👨‍🎓 حساب طالب
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  <GraduationCap size={18} />
+                  حساب طالب
+                </div>
               </button>
             </div>
           )}
