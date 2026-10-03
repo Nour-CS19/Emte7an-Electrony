@@ -56,7 +56,7 @@ export const Input = ({ label, id, error, className = '', suffix, ...props }) =>
         <input 
           id={id} 
           className={`input-field ${error ? 'input-error' : ''} ${suffix ? 'has-suffix' : ''}`} 
-          style={suffix ? { paddingLeft: '40px' } : {}}
+          style={{ ...(suffix ? { paddingLeft: '40px' } : {}), ...(props.style || {}) }}
           {...props} 
         />
         {suffix && (
