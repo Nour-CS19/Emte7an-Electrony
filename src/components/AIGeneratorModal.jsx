@@ -106,11 +106,29 @@ const AIGeneratorModal = ({ isOpen, onClose, onAddQuestions, apiKey }) => {
       // Clean markdown if AI still adds it
       const cleanJson = aiText.replace(/```json/g, '').replace(/```/g, '').trim();
       
-      const parsedQuestions = JSON.parse(cleanJson);
+      let parsedQuestions = JSON.parse(cleanJson);
       
       if (!Array.isArray(parsedQuestions)) {
         throw new Error('التنسيق المستلم غير صحيح');
       }
+
+      parsedQuestions = parsedQuestions.map(q => {
+        let correctStr = String(q.correct_answer);
+        if (isNaN(parseInt(correctStr)) || parseInt(correctStr) < 0 || parseInt(correctStr) >= (q.options?.length || 4)) {
+          const idx = (q.options || []).findIndex(o => o.trim() === correctStr.trim());
+          if (idx !== -1) {
+            correctStr = String(idx);
+          } else {
+            correctStr = "0";
+          }
+        }
+        return {
+          ...q,
+          type: 'mcq',
+          options: q.options || [],
+          correct_answer: correctStr
+        };
+      });
 
       setGeneratedQuestions(parsedQuestions);
       // Select all by default
@@ -145,7 +163,28 @@ const AIGeneratorModal = ({ isOpen, onClose, onAddQuestions, apiKey }) => {
 
       const aiText = data.candidates[0].content.parts[0].text;
       const cleanJson = aiText.replace(/```json/g, '').replace(/```/g, '').trim();
-      const parsedQuestions = JSON.parse(cleanJson);
+      let parsedQuestions = JSON.parse(cleanJson);
+      if (Array.isArray(parsedQuestions)) {
+        parsedQuestions = parsedQuestions.map(q => {
+          let correctStr = String(q.correct_answer);
+          if (isNaN(parseInt(correctStr)) || parseInt(correctStr) < 0 || parseInt(correctStr) >= (q.options?.length || 4)) {
+            const idx = (q.options || []).findIndex(o => o.trim() === correctStr.trim());
+            if (idx !== -1) {
+              correctStr = String(idx);
+            } else {
+              correctStr = "0";
+            }
+          }
+          return {
+            ...q,
+            type: 'mcq',
+            options: q.options || [],
+            correct_answer: correctStr
+          };
+        });
+      } else {
+        parsedQuestions = [];
+      }
       
       setGeneratedQuestions(parsedQuestions);
       setSelectedIndices(new Set(parsedQuestions.map((_, i) => i)));
@@ -319,7 +358,7 @@ const AIGeneratorModal = ({ isOpen, onClose, onAddQuestions, apiKey }) => {
               {/* Chatbot Interface */}
               <div className="mt-6 p-4" style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
                 <label className="input-label mb-2" style={{ display: 'block' }}>المساعد الذكي (Chatbot)</label>
-                <div className="flex gap-2">
+                <div className="flex gap-2" style={{ alignItems: 'center' }}>
                   <Input 
                     placeholder="اطلب من الذكاء الاصطناعي تعديل الأسئلة أو إضافة المزيد..."
                     value={chatInput}
@@ -327,7 +366,7 @@ const AIGeneratorModal = ({ isOpen, onClose, onAddQuestions, apiKey }) => {
                     style={{ marginBottom: 0, flex: 1 }}
                     onKeyPress={(e) => e.key === 'Enter' && handleRefine()}
                   />
-                  <Button onClick={handleRefine} isLoading={isRefining}>
+                  <Button onClick={handleRefine} isLoading={isRefining} style={{ height: '48px', padding: '0 24px' }}>
                     إرسال 🪄
                   </Button>
                 </div>

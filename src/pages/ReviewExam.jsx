@@ -151,8 +151,8 @@ const ReviewExam = () => {
               <strong>إجابتك: </strong>
               {ans.question?.type === 'true_false'
                 ? (ans.student_answer === 'true' ? 'صح' : 'خطأ')
-                : (ans.question?.type === 'mcq' && ans.question?.options 
-                    ? ans.question.options[Number(ans.student_answer)] 
+                : (ans.question?.type === 'mcq' && Array.isArray(ans.question?.options)
+                    ? ans.question.options[Number(ans.student_answer)] || ans.student_answer
                     : ans.student_answer) || '(لم تجب)'}
             </div>
 
@@ -161,8 +161,10 @@ const ReviewExam = () => {
                 <strong>الإجابة الصحيحة: </strong>
                 {ans.question?.type === 'true_false' 
                   ? (ans.question?.correct_answer === 'true' ? 'صح' : 'خطأ')
-                  : (ans.question?.type === 'mcq' && ans.question?.options 
-                      ? ans.question.options[Number(ans.question.correct_answer)]
+                  : (ans.question?.type === 'mcq' && Array.isArray(ans.question?.options)
+                      ? (ans.question.correct_answer.match(/^[0-9]+$/) 
+                          ? ans.question.options[Number(ans.question.correct_answer)]
+                          : ans.question.correct_answer)
                       : ans.question.correct_answer)}
               </div>
             )}
