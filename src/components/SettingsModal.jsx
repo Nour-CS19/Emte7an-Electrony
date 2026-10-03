@@ -7,7 +7,7 @@ import { X, Camera, Lock, User, Phone } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 const SettingsModal = ({ isOpen, onClose }) => {
-  const { profile, user } = useAuth();
+  const { profile, user, updateProfileState } = useAuth();
   const toast = useToast();
   
   const [loading, setLoading] = useState(false);
@@ -53,9 +53,8 @@ const SettingsModal = ({ isOpen, onClose }) => {
 
       if (updateError) throw updateError;
 
-      toast.success('تم تحديث الصورة بنجاح (سيظهر التحديث بعد إعادة تحميل الصفحة)');
-      // In a real app we'd update AuthContext state here, but reload is fine for simplicity
-      setTimeout(() => window.location.reload(), 1500);
+      toast.success('تم تحديث الصورة بنجاح');
+      updateProfileState({ avatar_url: data.publicUrl });
       
     } catch (error) {
       toast.error(error.message || 'حدث خطأ أثناء رفع الصورة');
@@ -88,8 +87,9 @@ const SettingsModal = ({ isOpen, onClose }) => {
         if (error) throw error;
       }
 
+      updateProfileState({ full_name: fullName, phone });
       toast.success('تم حفظ التعديلات بنجاح');
-      setTimeout(() => window.location.reload(), 1500);
+      onClose();
       
     } catch (error) {
       toast.error(error.message || 'حدث خطأ أثناء حفظ التعديلات');
@@ -141,24 +141,26 @@ const SettingsModal = ({ isOpen, onClose }) => {
           <form onSubmit={handleUpdateProfile} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <Input 
               label="الاسم الكامل" 
-              icon={<User size={18} />} 
+              suffix={<User size={18} />} 
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
             />
             <Input 
               label="رقم الهاتف (اختياري)" 
-              icon={<Phone size={18} />} 
+              suffix={<Phone size={18} />} 
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               type="tel"
+              style={{ direction: 'ltr', textAlign: 'left' }}
             />
             <Input 
               label="كلمة مرور جديدة (اتركها فارغة لعدم التغيير)" 
-              icon={<Lock size={18} />} 
+              suffix={<Lock size={18} />} 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
+              style={{ direction: 'ltr', textAlign: 'left' }}
             />
 
             <Button type="submit" disabled={loading} style={{ marginTop: '12px' }}>

@@ -216,6 +216,10 @@ export const AuthProvider = ({ children }) => {
     return newProfile;
   }, [user]);
 
+  const updateProfileState = useCallback((updates) => {
+    setProfile(prev => prev ? { ...prev, ...updates } : prev);
+  }, []);
+
   // Memoize context value to prevent unnecessary re-renders
   const value = useMemo(() => ({
     user,
@@ -226,10 +230,11 @@ export const AuthProvider = ({ children }) => {
     signIn,
     signOut,
     completeOnboarding,
+    updateProfileState,
     isTeacher: profile?.role === 'teacher',
     isStudent: profile?.role === 'student',
     isAuthenticated: !!user && !!profile,
-  }), [user, profile, loading, authError, signUp, signIn, signOut, completeOnboarding]);
+  }), [user, profile, loading, authError, signUp, signIn, signOut, completeOnboarding, updateProfileState]);
 
   return (
     <AuthContext.Provider value={value}>
