@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BookOpen, CheckCircle, Shield, CreditCard, Zap, ArrowLeft } from 'lucide-react';
 import { Card } from '../components/ui';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Landing = () => {
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && !profile) {
+      navigate('/auth');
+    }
+  }, [user, profile, navigate]);
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
