@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../components/Toast';
 import { Eye, EyeOff, GraduationCap, CheckCircle2, User, BookOpen } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Auth = () => {
   const location = useLocation();
@@ -103,6 +104,22 @@ const Auth = () => {
         signOut();
       }
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin
+        }
+      });
+      if (error) throw error;
+    } catch (error) {
+      toast.error(error.message || 'فشل تسجيل الدخول بواسطة جوجل');
       setLoading(false);
     }
   };
@@ -297,6 +314,23 @@ const Auth = () => {
               style={{ width: '100%', marginTop: '8px', height: '52px', fontSize: '1.1rem', borderRadius: '12px', fontWeight: '700' }}
             >
               {isLogin ? 'تسجيل الدخول' : 'إنشاء حساب مجاني'}
+            </Button>
+            
+            <div style={{ display: 'flex', alignItems: 'center', margin: '8px 0', gap: '16px' }}>
+              <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }}></div>
+              <span style={{ color: 'var(--text-muted)', fontSize: '14px', fontWeight: '500' }}>أو</span>
+              <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }}></div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleGoogleAuth}
+              disabled={loading}
+              style={{ width: '100%', height: '52px', fontSize: '1.1rem', borderRadius: '12px', fontWeight: '700', display: 'flex', justifyContent: 'center', gap: '12px' }}
+            >
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{ width: '24px', height: '24px' }} />
+              المتابعة باستخدام جوجل
             </Button>
           </form>
 

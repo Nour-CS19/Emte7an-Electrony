@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Card, Button, Spinner, EmptyState, StatCard, Badge } from '../components/ui';
-import { Plus, Copy, Eye, BookOpen, Users, CheckCircle, Trash2, X, CheckCircle2, ShieldCheck, LayoutDashboard, LogOut, ChevronRight, ChevronLeft, Menu } from 'lucide-react';
+import { Plus, Copy, Eye, BookOpen, Users, CheckCircle, Trash2, X, CheckCircle2, ShieldCheck, LayoutDashboard, LogOut, ChevronRight, ChevronLeft, Menu, Settings } from 'lucide-react';
+import SettingsModal from '../components/SettingsModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../components/Toast';
@@ -18,6 +19,7 @@ const TeacherDashboard = () => {
   const [activePlan, setActivePlan] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   
   const [examsPage, setExamsPage] = useState(1);
   const itemsPerPage = 10;
@@ -236,10 +238,35 @@ const TeacherDashboard = () => {
           style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
             background: 'var(--brand-primary)', color: 'white', fontWeight: '700',
-            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'center', justifyContent: 'center'
+            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'center', justifyContent: 'center',
+            marginBottom: '12px'
           }}
         >
           ترقية الحساب
+        </button>
+
+        <button 
+          onClick={() => setIsSettingsOpen(true)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
+            background: 'transparent', color: 'var(--text-primary)', fontWeight: '500',
+            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+          }}
+        >
+          <Settings size={20} />
+          إعدادات الحساب
+        </button>
+
+        <button 
+          onClick={() => signOut()}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
+            background: 'transparent', color: 'var(--danger)', fontWeight: '500',
+            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+          }}
+        >
+          <LogOut size={20} style={{ transform: 'rotate(180deg)' }} />
+          تسجيل الخروج
         </button>
       </aside>
 
@@ -609,6 +636,9 @@ const TeacherDashboard = () => {
         </div>
       , document.body)}
 
+
+      {/* Settings Modal */}
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
 
     </div>
   );

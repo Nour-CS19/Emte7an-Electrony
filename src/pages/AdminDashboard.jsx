@@ -5,6 +5,7 @@ import { useToast } from '../components/Toast';
 import { Card, Badge, Button, Spinner, Input, Modal, Select } from '../components/ui';
 import { Users, BookOpen, ShieldCheck, CheckCircle, XCircle, Search, DollarSign, LayoutDashboard, Settings, CreditCard, LogOut, ChevronRight, ChevronLeft, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import SettingsModal from '../components/SettingsModal';
 
 const AdminDashboard = () => {
   const { profile, signOut } = useAuth();
@@ -16,6 +17,7 @@ const AdminDashboard = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview'); // overview, users, subscriptions
   
   const [usersPage, setUsersPage] = useState(1);
@@ -228,6 +230,31 @@ const AdminDashboard = () => {
               {subscriptions.filter(s => s.status === 'pending').length} جديد
             </Badge>
           )}
+        </button>
+        <div className="spacer" style={{ flex: 1 }}></div>
+
+        <button 
+          onClick={() => setIsSettingsOpen(true)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
+            background: 'transparent', color: 'var(--text-primary)', fontWeight: '500',
+            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+          }}
+        >
+          <Settings size={20} />
+          إعدادات الحساب
+        </button>
+
+        <button 
+          onClick={() => signOut()}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
+            background: 'transparent', color: 'var(--danger)', fontWeight: '500',
+            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+          }}
+        >
+          <LogOut size={20} style={{ transform: 'rotate(180deg)' }} />
+          تسجيل الخروج
         </button>
       </aside>
 
@@ -565,6 +592,9 @@ const AdminDashboard = () => {
           </form>
         )}
       </Modal>
+
+      {/* Settings Modal */}
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
 
     </div>
   );
