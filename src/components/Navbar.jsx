@@ -31,7 +31,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/" className="brand">
-        <BookOpen size={24} className="text-brand" />
+        <img src="/logo1.jpg" alt="Logo" style={{ height: '36px', width: 'auto', borderRadius: '4px' }} />
         <span>امتحان أونلاين</span>
       </Link>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
 
             {isStudent && (
               <>
-                <button 
+                <button
                   className="nav-link mobile-only-btn"
                   onClick={() => { setMobileOpen(false); setIsSettingsOpen(true); }}
                   title="إعدادات الحساب"
@@ -83,9 +83,9 @@ const Navbar = () => {
                   <Settings size={18} />
                   <span>إعدادات الحساب</span>
                 </button>
-                <button 
+                <button
                   className="nav-link mobile-only-btn"
-                  onClick={handleSignOut} 
+                  onClick={handleSignOut}
                   title="تسجيل الخروج"
                   style={{ color: 'var(--danger)', fontWeight: 'bold' }}
                 >
@@ -96,9 +96,9 @@ const Navbar = () => {
             )}
 
             <div className="user-pill">
-              <img 
-                src={profile.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile.full_name}&backgroundColor=f26b38`} 
-                alt="Avatar" 
+              <img
+                src={profile.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile.full_name}&backgroundColor=f26b38`}
+                alt="Avatar"
                 style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
               />
               <div className="user-pill-info">
@@ -111,17 +111,17 @@ const Navbar = () => {
               </div>
               {isStudent && (
                 <>
-                  <button 
+                  <button
                     className="user-pill-logout desktop-only-flex"
-                    onClick={() => setIsSettingsOpen(true)} 
+                    onClick={() => setIsSettingsOpen(true)}
                     title="إعدادات الحساب"
                     style={{ marginLeft: '4px', color: 'var(--text-muted)' }}
                   >
                     <Settings size={18} />
                   </button>
-                  <button 
+                  <button
                     className="user-pill-logout desktop-only-flex"
-                    onClick={handleSignOut} 
+                    onClick={handleSignOut}
                     title="تسجيل الخروج"
                     style={{ color: 'var(--danger)' }}
                   >

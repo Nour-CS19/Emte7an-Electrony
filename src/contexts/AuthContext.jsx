@@ -190,6 +190,32 @@ export const AuthProvider = ({ children }) => {
     setProfile(null);
   }, []);
 
+  const completeOnboarding = useCallback(async (role, extraData = {}) => {
+    if (!user) throw new Error('لا يوجد مستخدم مسجل الدخول');
+    
+    const fullName = user.user_metadata?.full_name || user.user_metadata?.name || 'مستخدم جديد';
+    
+    const profileToInsert = {
+      id: user.id,
+      full_name: fullName,
+      role,
+      ...extraData
+    };
+
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert(profileToInsert);
+
+    if (profileError) {
+      console.error('Profile creation failed:', profileError);
+      throw new Error('فشل إكمال التسجيل. يرجى المحاولة مرة أخرى.');
+    }
+
+    const newProfile = { ...profileToInsert, created_at: new Date().toISOString() };
+    setProfile(newProfile);
+    return newProfile;
+  }, [user]);
+
   // Memoize context value to prevent unnecessary re-renders
   const value = useMemo(() => ({
     user,
@@ -199,10 +225,11 @@ export const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     signOut,
+    completeOnboarding,
     isTeacher: profile?.role === 'teacher',
     isStudent: profile?.role === 'student',
     isAuthenticated: !!user && !!profile,
-  }), [user, profile, loading, authError, signUp, signIn, signOut]);
+  }), [user, profile, loading, authError, signUp, signIn, signOut, completeOnboarding]);
 
   return (
     <AuthContext.Provider value={value}>

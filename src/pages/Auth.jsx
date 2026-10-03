@@ -9,7 +9,7 @@ import { supabase } from '../lib/supabase';
 const Auth = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { signUp, signIn, signOut, user, profile } = useAuth();
+  const { signUp, signIn, completeOnboarding, user, profile } = useAuth();
   const toast = useToast();
 
   const defaultRole = location.state?.role || 'teacher';
@@ -108,6 +108,46 @@ const Auth = () => {
     }
   };
 
+  const handleOnboardingSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const phoneRegex = /^01[0125][0-9]{8}$/;
+
+      if (!phoneRegex.test(formData.phone.trim())) return toast.error('الرجاء إدخال رقم هاتف صحيح (11 رقم)');
+      if (!formData.city.trim()) return toast.error('الرجاء إدخال المحافظة/المدينة');
+      if (!formData.school.trim()) return toast.error('الرجاء إدخال المدرسة أو السنتر');
+      
+      if (role === 'student') {
+        if (!phoneRegex.test(formData.parent_phone.trim())) return toast.error('رقم ولي الأمر غير صحيح');
+        if (formData.phone.trim() === formData.parent_phone.trim()) {
+          return toast.error('رقم التليفون غير صحيح');
+        }
+        if (!formData.academic_year.trim()) return toast.error('الرجاء إدخال السنة الدراسية');
+      } else if (role === 'teacher') {
+        if (!formData.subject.trim()) return toast.error('الرجاء إدخال المادة');
+      }
+
+      const extraData = {
+        phone: formData.phone.trim(),
+        parent_phone: role === 'student' ? formData.parent_phone.trim() : null,
+        city: formData.city.trim(),
+        school: formData.school.trim(),
+        academic_year: role === 'student' ? formData.academic_year.trim() : null,
+        subject: role === 'teacher' ? formData.subject.trim() : null,
+      };
+
+      const userProfile = await completeOnboarding(role, extraData);
+      toast.success('تم استكمال الحساب بنجاح! 🚀');
+      if (userProfile?.role === 'teacher') navigate('/dashboard', { replace: true });
+      else if (userProfile?.role === 'student') navigate('/student', { replace: true });
+    } catch (err) {
+      toast.error(err.message || 'حدث خطأ أثناء استكمال البيانات');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogleAuth = async () => {
     try {
       setLoading(true);
@@ -138,7 +178,141 @@ const Auth = () => {
       >
         <div style={{ maxWidth: '440px', width: '100%', margin: '0 auto' }}>
           
-          <div style={{ marginBottom: '32px' }}>
+          {user && !profile ? (
+            <>
+              <div style={{ marginBottom: '32px' }}>
+                <h1 style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.5px' }}>
+                  استكمال البيانات 🚀
+                </h1>
+                <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', margin: 0 }}>
+                  يرجى استكمال البيانات التالية لإتمام إنشاء الحساب
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', background: 'var(--bg-secondary)', padding: '6px', borderRadius: '14px', marginBottom: '32px', gap: '4px' }}>
+                <button
+                  type="button"
+                  onClick={() => setRole('teacher')}
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: role === 'teacher' ? 'var(--bg-primary)' : 'transparent',
+                    color: role === 'teacher' ? 'var(--text-primary)' : 'var(--text-muted)',
+                    boxShadow: role === 'teacher' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
+                    fontWeight: role === 'teacher' ? '700' : '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                  }}
+                >
+                  <BookOpen size={18} />
+                  معلم
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('student')}
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: role === 'student' ? 'var(--bg-primary)' : 'transparent',
+                    color: role === 'student' ? 'var(--text-primary)' : 'var(--text-muted)',
+                    boxShadow: role === 'student' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
+                    fontWeight: role === 'student' ? '700' : '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                  }}
+                >
+                  <User size={18} />
+                  طالب
+                </button>
+              </div>
+
+              <form onSubmit={handleOnboardingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Input
+                  label="رقم الهاتف"
+                  id="phone"
+                  required
+                  placeholder="01xxxxxxxxx"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  style={{ direction: 'ltr', textAlign: 'left' }}
+                />
+                <Input
+                  label="المحافظة / المدينة"
+                  id="city"
+                  required
+                  placeholder="مثال: القاهرة، الإسكندرية..."
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+                {role === 'student' && (
+                  <>
+                    <Input
+                      label="رقم هاتف ولي الأمر"
+                      id="parent_phone"
+                      required
+                      placeholder="01xxxxxxxxx"
+                      value={formData.parent_phone || ''}
+                      onChange={handleChange}
+                      style={{ direction: 'ltr', textAlign: 'left' }}
+                    />
+                    <Input
+                      label="المدرسة أو السنتر"
+                      id="school"
+                      required
+                      placeholder="اسم مدرستك أو المركز..."
+                      value={formData.school}
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="السنة الدراسية"
+                      id="academic_year"
+                      required
+                      placeholder="الأول الثانوي"
+                      value={formData.academic_year || ''}
+                      onChange={handleChange}
+                    />
+                  </>
+                )}
+                {role === 'teacher' && (
+                  <Input
+                    label="المدرسة أو السنتر"
+                    id="school"
+                    required
+                    placeholder="مكان عملك..."
+                    value={formData.school || ''}
+                    onChange={handleChange}
+                  />
+                )}
+                {role === 'teacher' && (
+                  <Input
+                    label="المادة التي تدرسها"
+                    id="subject"
+                    required
+                    placeholder="رياضيات، لغة عربية..."
+                    value={formData.subject || ''}
+                    onChange={handleChange}
+                  />
+                )}
+
+                <Button
+                  type="submit"
+                  isLoading={loading}
+                  size="lg"
+                  style={{ width: '100%', height: '52px', fontSize: '1.1rem', borderRadius: '12px', fontWeight: '700', marginTop: '12px' }}
+                >
+                  إكمال التسجيل
+                </Button>
+              </form>
+            </>
+          ) : (
+            <>
+              <div style={{ marginBottom: '32px' }}>
             <h1 style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.5px' }}>
               {isLogin ? 'مرحباً بعودتك 👋' : 'إنشاء حساب جديد ✨'}
             </h1>
@@ -333,26 +507,28 @@ const Auth = () => {
             </Button>
           </form>
 
-          <div style={{ textAlign: 'center', marginTop: '32px', color: 'var(--text-muted)', fontSize: '15px' }}>
-            {isLogin ? 'ليس لديك حساب؟ ' : 'لديك حساب بالفعل؟ '}
-            <button
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setFormData({ name: '', email: '', password: '', phone: '', city: '', school: '', academic_year: '', subject: '', parent_phone: '' });
-              }}
-              style={{ 
-                background: 'none', 
-                border: 'none', 
-                cursor: 'pointer', 
-                color: 'var(--brand-primary)', 
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                padding: '0 4px'
-              }}
-            >
-              {isLogin ? 'سجل مجاناً الآن' : 'سجل الدخول'}
-            </button>
-          </div>
+              <div style={{ textAlign: 'center', marginTop: '32px', color: 'var(--text-muted)', fontSize: '15px' }}>
+                {isLogin ? 'ليس لديك حساب؟ ' : 'لديك حساب بالفعل؟ '}
+                <button
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setFormData({ name: '', email: '', password: '', phone: '', city: '', school: '', academic_year: '', subject: '', parent_phone: '' });
+                  }}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    cursor: 'pointer', 
+                    color: 'var(--brand-primary)', 
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                    padding: '0 4px'
+                  }}
+                >
+                  {isLogin ? 'سجل مجاناً الآن' : 'سجل الدخول'}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
