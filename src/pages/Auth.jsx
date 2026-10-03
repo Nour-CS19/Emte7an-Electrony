@@ -125,16 +125,15 @@ const Auth = () => {
   };
 
   return (
-    <div style={{ display: 'flex', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden', margin: 0, padding: 0 }}>
+    <div className="auth-container" style={{ display: 'flex', flex: 1, width: '100%' }}>
       {/* Right Side: Form Container */}
       <div 
         className="auth-right-panel animate-fade-in"
         style={{ 
           flex: '1', 
-          padding: '100px 40px 40px', 
+          padding: '60px 40px', 
           background: 'var(--bg-primary)',
-          position: 'relative',
-          overflowY: 'auto'
+          position: 'relative'
         }}
       >
         <div style={{ maxWidth: '440px', width: '100%', margin: '0 auto' }}>
@@ -380,7 +379,7 @@ const Auth = () => {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(59,130,246,0.8) 100%)',
+          background: 'linear-gradient(135deg, rgba(15,23,42,0.7) 0%, rgba(59,130,246,0.4) 100%)',
           zIndex: 1
         }} />
 
