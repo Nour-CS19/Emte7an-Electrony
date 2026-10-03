@@ -184,18 +184,28 @@ const TeacherDashboard = () => {
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? '' : 'collapsed'}`}>
         <div style={{ padding: '0 12px 24px', borderBottom: '1px solid var(--border-color)', marginBottom: '12px' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--brand-primary)' }}>
-            <Users size={24} />
-            لوحة المعلم
-          </h2>
-          <p className="text-muted" style={{ fontSize: '13px', marginTop: '4px' }}>{profile?.full_name}</p>
-          <div style={{ marginTop: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <img 
+              src={profile?.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile?.full_name}&backgroundColor=f26b38`}
+              alt="Avatar"
+              style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--border-color)', objectFit: 'cover' }}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <h2 style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                لوحة المعلم
+                <Users size={16} style={{ color: 'var(--brand-primary)' }} />
+              </h2>
+              <p className="text-muted" style={{ fontSize: '13px', margin: '2px 0 0' }}>{profile?.full_name}</p>
+            </div>
+          </div>
+          
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             {activePlan ? (
-              <span style={{ background: 'var(--brand-primary)', color: 'white', padding: '4px 12px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold' }}>
+              <span style={{ background: 'var(--brand-soft)', color: 'var(--brand-primary)', padding: '6px 16px', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 'bold', width: '100%', textAlign: 'center' }}>
                 باقة {activePlan === 'monthly' ? 'شهرية' : activePlan === 'teacher' ? 'المعلم' : activePlan === 'center' ? 'السنتر' : activePlan}
               </span>
             ) : (
-              <span style={{ background: 'var(--text-secondary)', color: 'white', padding: '4px 12px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold' }}>
+              <span style={{ background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', padding: '6px 16px', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 'bold', width: '100%', textAlign: 'center' }}>
                 باقة مجانية
               </span>
             )}
@@ -246,26 +256,32 @@ const TeacherDashboard = () => {
         </button>
 
         <button 
+          className="nav-link"
           onClick={() => setIsSettingsOpen(true)}
           style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
-            background: 'transparent', color: 'var(--text-primary)', fontWeight: '500',
-            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+            background: 'transparent', color: 'var(--text-primary)', fontWeight: '600',
+            border: '1px solid transparent', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-secondary)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
         >
-          <Settings size={20} />
+          <Settings size={18} />
           إعدادات الحساب
         </button>
 
         <button 
+          className="nav-link"
           onClick={() => signOut()}
           style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
-            background: 'transparent', color: 'var(--danger)', fontWeight: '500',
-            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+            background: 'var(--danger-soft)', color: 'var(--danger)', fontWeight: '600',
+            border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right', marginTop: '8px'
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--danger)'; e.currentTarget.style.color = 'white'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--danger-soft)'; e.currentTarget.style.color = 'var(--danger)'; }}
         >
-          <LogOut size={20} style={{ transform: 'rotate(180deg)' }} />
+          <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
           تسجيل الخروج
         </button>
       </aside>
