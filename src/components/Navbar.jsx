@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BookOpen, Sun, Moon, LogOut, LayoutDashboard, Menu, X, ShieldCheck } from 'lucide-react';
+import { BookOpen, Sun, Moon, LogOut, LayoutDashboard, Menu, X, ShieldCheck, Settings } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from './ui';
+import SettingsModal from './SettingsModal';
 
 const Navbar = () => {
   const { user, profile, signOut, isTeacher: authIsTeacher, isStudent: authIsStudent } = useAuth();
@@ -13,6 +14,7 @@ const Navbar = () => {
     return document.documentElement.getAttribute('data-theme') === 'dark';
   });
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const toggleTheme = () => {
     const next = !darkMode;
@@ -73,6 +75,14 @@ const Navbar = () => {
 
             <button 
               className="nav-link mobile-only-btn"
+              onClick={() => { setMobileOpen(false); setIsSettingsOpen(true); }}
+              title="إعدادات الحساب"
+            >
+              <Settings size={18} />
+              <span>إعدادات الحساب</span>
+            </button>
+            <button 
+              className="nav-link mobile-only-btn"
               onClick={handleSignOut} 
               title="تسجيل الخروج"
               style={{ color: 'var(--danger)', fontWeight: 'bold' }}
@@ -83,7 +93,7 @@ const Navbar = () => {
 
             <div className="user-pill">
               <img 
-                src={`https://api.dicebear.com/7.x/initials/svg?seed=${profile.full_name}&backgroundColor=f26b38`} 
+                src={profile.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile.full_name}&backgroundColor=f26b38`} 
                 alt="Avatar" 
                 style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }}
               />
@@ -97,8 +107,17 @@ const Navbar = () => {
               </div>
               <button 
                 className="user-pill-logout desktop-only-flex"
+                onClick={() => setIsSettingsOpen(true)} 
+                title="إعدادات الحساب"
+                style={{ marginLeft: '4px', color: 'var(--text-muted)' }}
+              >
+                <Settings size={18} />
+              </button>
+              <button 
+                className="user-pill-logout desktop-only-flex"
                 onClick={handleSignOut} 
                 title="تسجيل الخروج"
+                style={{ color: 'var(--danger)' }}
               >
                 <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
               </button>
@@ -115,6 +134,8 @@ const Navbar = () => {
           </>
         )}
       </div>
+
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </nav>
   );
 };
