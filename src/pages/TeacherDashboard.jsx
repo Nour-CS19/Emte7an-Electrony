@@ -190,7 +190,7 @@ const TeacherDashboard = () => {
               alt="Avatar"
               style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--border-color)', objectFit: 'cover' }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <div className="sidebar-text" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                 لوحة المعلم
                 <Users size={16} style={{ color: 'var(--brand-primary)' }} />
@@ -199,7 +199,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="sidebar-text" style={{ display: 'flex', justifyContent: 'center' }}>
             {activePlan ? (
               <span style={{ background: 'var(--brand-soft)', color: 'var(--brand-primary)', padding: '6px 16px', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 'bold', width: '100%', textAlign: 'center' }}>
                 باقة {activePlan === 'monthly' ? 'شهرية' : activePlan === 'teacher' ? 'المعلم' : activePlan === 'center' ? 'السنتر' : activePlan}
@@ -223,7 +223,7 @@ const TeacherDashboard = () => {
           }}
         >
           <LayoutDashboard size={20} />
-          نظرة عامة
+          <span className="sidebar-text">نظرة عامة</span>
         </button>
 
         <button 
@@ -237,8 +237,8 @@ const TeacherDashboard = () => {
           }}
         >
           <BookOpen size={20} />
-          امتحاناتي
-          <Badge variant="default" style={{ marginRight: 'auto', fontSize: '11px' }}>{exams.length}</Badge>
+          <span className="sidebar-text">امتحاناتي</span>
+          <Badge className="sidebar-text" variant="default" style={{ marginRight: 'auto', fontSize: '11px' }}>{exams.length}</Badge>
         </button>
 
         <div className="spacer" style={{ flex: 1 }}></div>
@@ -252,7 +252,7 @@ const TeacherDashboard = () => {
             marginBottom: '12px'
           }}
         >
-          ترقية الحساب
+          <span className="sidebar-text">ترقية الحساب</span>
         </button>
 
         <button 
@@ -267,7 +267,7 @@ const TeacherDashboard = () => {
           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
         >
           <Settings size={18} />
-          إعدادات الحساب
+          <span className="sidebar-text">إعدادات الحساب</span>
         </button>
 
         <button 
@@ -282,7 +282,7 @@ const TeacherDashboard = () => {
           onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--danger-soft)'; e.currentTarget.style.color = 'var(--danger)'; }}
         >
           <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
-          تسجيل الخروج
+          <span className="sidebar-text">تسجيل الخروج</span>
         </button>
       </aside>
 

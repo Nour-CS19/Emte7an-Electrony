@@ -1440,10 +1440,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dashboard-sidebar.collapsed {
-  width: 0;
-  padding: 0;
-  border-left: none;
-  opacity: 0;
+  width: 80px;
+  overflow: hidden;
+  align-items: center;
+}
+
+.dashboard-sidebar.collapsed .sidebar-text {
+  display: none !important;
+}
+
+.dashboard-sidebar.collapsed button {
+  justify-content: center;
+  padding: 12px;
 }
 
 .dashboard-main {
@@ -1457,6 +1465,14 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
   .dashboard-layout {
     flex-direction: column;
+  }
+  
+  .dashboard-sidebar.collapsed {
+    width: 0;
+    padding: 0;
+    border-left: none;
+    opacity: 0;
+    border-bottom: none;
   }
   
   .dashboard-sidebar {

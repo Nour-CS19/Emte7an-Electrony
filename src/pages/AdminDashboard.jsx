@@ -183,7 +183,7 @@ const AdminDashboard = () => {
               alt="Avatar"
               style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--border-color)', objectFit: 'cover' }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <div className="sidebar-text" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                 لوحة الإدارة
                 <ShieldCheck size={16} style={{ color: 'var(--brand-primary)' }} />
@@ -192,7 +192,7 @@ const AdminDashboard = () => {
             </div>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="sidebar-text" style={{ display: 'flex', justifyContent: 'center' }}>
             <span style={{ background: 'var(--success-soft)', color: 'var(--success-color)', padding: '6px 16px', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 'bold', width: '100%', textAlign: 'center' }}>
               صلاحيات كاملة
             </span>
@@ -210,7 +210,7 @@ const AdminDashboard = () => {
           }}
         >
           <LayoutDashboard size={20} />
-          نظرة عامة
+          <span className="sidebar-text">نظرة عامة</span>
         </button>
 
         <button 
@@ -224,8 +224,8 @@ const AdminDashboard = () => {
           }}
         >
           <Users size={20} />
-          المستخدمين
-          <Badge variant="default" style={{ marginRight: 'auto', fontSize: '11px' }}>{stats.totalUsers}</Badge>
+          <span className="sidebar-text">المستخدمين</span>
+          <Badge className="sidebar-text" variant="default" style={{ marginRight: 'auto', fontSize: '11px' }}>{stats.totalUsers}</Badge>
         </button>
 
         <button 
@@ -239,9 +239,9 @@ const AdminDashboard = () => {
           }}
         >
           <CreditCard size={20} />
-          الاشتراكات والدفع
+          <span className="sidebar-text">الاشتراكات والدفع</span>
           {subscriptions.filter(s => s.status === 'pending').length > 0 && (
-            <Badge variant="brand" style={{ marginRight: 'auto', fontSize: '11px', background: 'var(--danger)' }}>
+            <Badge className="sidebar-text" variant="brand" style={{ marginRight: 'auto', fontSize: '11px', background: 'var(--danger)' }}>
               {subscriptions.filter(s => s.status === 'pending').length} جديد
             </Badge>
           )}
@@ -260,7 +260,7 @@ const AdminDashboard = () => {
           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
         >
           <Settings size={18} />
-          إعدادات الحساب
+          <span className="sidebar-text">إعدادات الحساب</span>
         </button>
 
         <button 
@@ -275,7 +275,7 @@ const AdminDashboard = () => {
           onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--danger-soft)'; e.currentTarget.style.color = 'var(--danger)'; }}
         >
           <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
-          تسجيل الخروج
+          <span className="sidebar-text">تسجيل الخروج</span>
         </button>
       </aside>
 
