@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../components/Toast';
 import { Card, Badge, Button, Spinner, Input, Modal, Select } from '../components/ui';
-import { Users, BookOpen, ShieldCheck, CheckCircle, XCircle, Search, DollarSign, LayoutDashboard, Settings, CreditCard, LogOut, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Users, BookOpen, ShieldCheck, CheckCircle, XCircle, Search, DollarSign, LayoutDashboard, Settings, CreditCard, LogOut, ChevronRight, ChevronLeft, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {

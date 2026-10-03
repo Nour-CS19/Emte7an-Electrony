@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Card, Button, Spinner, EmptyState, StatCard, Badge } from '../components/ui';
-import { Plus, Copy, Eye, BookOpen, Users, CheckCircle, Trash2, X, CheckCircle2, ShieldCheck, LayoutDashboard, LogOut, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Plus, Copy, Eye, BookOpen, Users, CheckCircle, Trash2, X, CheckCircle2, ShieldCheck, LayoutDashboard, LogOut, ChevronRight, ChevronLeft, Menu } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../components/Toast';
