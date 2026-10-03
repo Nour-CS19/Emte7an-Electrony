@@ -296,17 +296,17 @@ const AdminDashboard = () => {
                     <table style={{ width: '100%', textAlign: 'right', borderCollapse: 'collapse' }}>
                       <thead>
                         <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
-                          <th className="pb-3 text-muted">المعلم/السنتر</th>
-                          <th className="pb-3 text-muted">الباقة</th>
-                          <th className="pb-3 text-muted">المبلغ / الطريقة</th>
-                          <th className="pb-3 text-muted">إجراء</th>
+                          <th style={{ padding: '12px 16px', textAlign: 'right' }} className="text-muted">المعلم/السنتر</th>
+                          <th style={{ padding: '12px 16px', textAlign: 'right' }} className="text-muted">الباقة</th>
+                          <th style={{ padding: '12px 16px', textAlign: 'right' }} className="text-muted">المبلغ / الطريقة</th>
+                          <th style={{ padding: '12px 16px', textAlign: 'right' }} className="text-muted">إجراء</th>
                         </tr>
                       </thead>
                       <tbody>
                         {subscriptions.filter(s => s.status === 'pending').slice(0, 5).map((sub) => (
                           <tr key={sub.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                            <td className="py-3 font-medium">{sub.profiles?.full_name}</td>
-                            <td className="py-3">
+                            <td style={{ padding: '12px 16px', textAlign: 'right' }} className="font-medium">{sub.profiles?.full_name}</td>
+                            <td style={{ padding: '12px 16px', textAlign: 'right' }}>
                               <Badge variant="brand">{sub.plan === 'teacher_monthly' ? 'معلم (300)' : 'سنتر (500)'}</Badge>
                               {sub.center_name && (
                                 <div style={{ marginTop: '4px', fontSize: '11px', color: 'var(--brand-primary)', fontWeight: 'bold' }}>
@@ -314,8 +314,8 @@ const AdminDashboard = () => {
                                 </div>
                               )}
                             </td>
-                            <td className="py-3">{sub.amount} ج.م <span className="text-muted text-xs">({sub.payment_method})</span></td>
-                            <td className="py-3">
+                            <td style={{ padding: '12px 16px', textAlign: 'right' }}>{sub.amount} ج.م <span className="text-muted text-xs">({sub.payment_method})</span></td>
+                            <td style={{ padding: '12px 16px', textAlign: 'right' }}>
                               <div className="flex gap-2">
                                 <Button size="sm" onClick={() => handleApproveSubscription(sub.id)} style={{ padding: '8px' }}>
                                   <CheckCircle size={16} />
