@@ -259,9 +259,10 @@ const TeacherDashboard = () => {
               </button>
               <div>
                 <h1 className="text-2xl font-bold mb-1 m-0">
-                {activeTab === 'overview' ? 'نظرة عامة' : 'امتحاناتي'}
-              </h1>
-              <p className="text-muted">أهلاً بك مجدداً يا {profile?.full_name.split(' ')[0]}</p>
+                  {activeTab === 'overview' ? 'نظرة عامة' : 'امتحاناتي'}
+                </h1>
+                <p className="text-muted">أهلاً بك مجدداً يا {profile?.full_name.split(' ')[0]}</p>
+              </div>
             </div>
             
             <div style={{ display: 'flex', gap: '12px' }}>
