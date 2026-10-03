@@ -240,7 +240,6 @@ const Auth = () => {
                   placeholder="01xxxxxxxxx"
                   value={formData.phone}
                   onChange={handleChange}
-                  style={{ direction: 'ltr', textAlign: 'left' }}
                 />
                 <Input
                   label="المحافظة / المدينة"
@@ -388,7 +387,6 @@ const Auth = () => {
                   placeholder="01xxxxxxxxx"
                   value={formData.phone}
                   onChange={handleChange}
-                  style={{ direction: 'ltr', textAlign: 'left' }}
                 />
                 <Input
                   label="المحافظة / المدينة"
@@ -407,7 +405,6 @@ const Auth = () => {
                       placeholder="01xxxxxxxxx"
                       value={formData.parent_phone || ''}
                       onChange={handleChange}
-                      style={{ direction: 'ltr', textAlign: 'left' }}
                     />
                     <Input
                       label="المدرسة أو السنتر"
@@ -458,7 +455,6 @@ const Auth = () => {
               placeholder="example@email.com"
               value={formData.email}
               onChange={handleChange}
-              style={{ direction: 'ltr', textAlign: 'left' }}
             />
 
             <Input

@@ -152,7 +152,6 @@ const SettingsModal = ({ isOpen, onClose }) => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               type="tel"
-              style={{ direction: 'ltr', textAlign: 'left' }}
             />
             <Input 
               label="كلمة مرور جديدة (اتركها فارغة لعدم التغيير)" 
@@ -160,7 +159,6 @@ const SettingsModal = ({ isOpen, onClose }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              style={{ direction: 'ltr', textAlign: 'left' }}
             />
 
             <Button type="submit" disabled={loading} style={{ marginTop: '12px' }}>
