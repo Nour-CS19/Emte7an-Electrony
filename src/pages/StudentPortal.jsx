@@ -3,7 +3,7 @@ import { Card, Input, Button, Spinner } from '../components/ui';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../components/Toast';
 import { supabase } from '../lib/supabase';
-import { Search, Clock, FileText, CheckCircle2, History, XCircle, LayoutDashboard, Settings, LogOut, User, Menu } from 'lucide-react';
+import { Search, Clock, FileText, CheckCircle2, History, XCircle, LayoutDashboard, Settings, LogOut, User, Menu, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import SettingsModal from '../components/SettingsModal';
 
@@ -15,6 +15,9 @@ const StudentPortal = () => {
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return document.documentElement.getAttribute('data-theme') === 'dark';
+  });
 
   const navigate = useNavigate();
   const toast = useToast();
@@ -106,6 +109,13 @@ const StudentPortal = () => {
     navigate('/');
   };
 
+  const toggleTheme = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
+
   return (
     <div className="dashboard-layout">
       {/* Sidebar */}
@@ -145,6 +155,21 @@ const StudentPortal = () => {
         </button>
 
         <div className="spacer" style={{ flex: 1 }}></div>
+
+        <button 
+          className="nav-link"
+          onClick={toggleTheme}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
+            background: 'transparent', color: 'var(--text-primary)', fontWeight: '600',
+            border: '1px solid transparent', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-secondary)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
+        >
+          {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+          <span className="sidebar-text">{darkMode ? 'الوضع المضيء' : 'الوضع المظلم'}</span>
+        </button>
 
         <button 
           className="nav-link"
