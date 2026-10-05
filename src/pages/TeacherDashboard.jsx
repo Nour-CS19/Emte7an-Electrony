@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Card, Button, Spinner, EmptyState, StatCard, Badge } from '../components/ui';
-import { Plus, Copy, Eye, BookOpen, Users, CheckCircle, Trash2, X, CheckCircle2, ShieldCheck, LayoutDashboard, LogOut, ChevronRight, ChevronLeft, Menu, Settings, Sun, Moon } from 'lucide-react';
+import { Plus, Copy, Eye, BookOpen, Users, CheckCircle, Trash2, X, CheckCircle2, ShieldCheck, LayoutDashboard, LogOut, ChevronRight, ChevronLeft, Menu, Settings } from 'lucide-react';
 import SettingsModal from '../components/SettingsModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -18,11 +18,8 @@ const TeacherDashboard = () => {
   const [stats, setStats] = useState({ totalExams: 0, totalSubmissions: 0, avgScore: 0 });
   const [activePlan, setActivePlan] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    return document.documentElement.getAttribute('data-theme') === 'dark';
-  });
   
   const [examsPage, setExamsPage] = useState(1);
   const itemsPerPage = 10;
@@ -262,50 +259,26 @@ const TeacherDashboard = () => {
         </button>
 
         <button 
-          className="nav-link"
-          onClick={() => {
-            const next = !darkMode;
-            setDarkMode(next);
-            document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
-            localStorage.setItem('theme', next ? 'dark' : 'light');
-          }}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
-            background: 'transparent', color: 'var(--text-primary)', fontWeight: '600',
-            border: '1px solid transparent', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-secondary)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
-        >
-          {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-          <span className="sidebar-text">{darkMode ? 'الوضع المضيء' : 'الوضع المظلم'}</span>
-        </button>
-
-        <button 
-          className="nav-link"
+          className="nav-link sidebar-btn"
           onClick={() => setIsSettingsOpen(true)}
           style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
-            background: 'transparent', color: 'var(--text-primary)', fontWeight: '600',
+            color: 'var(--text-primary)', fontWeight: '600',
             border: '1px solid transparent', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right'
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-secondary)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent'; }}
         >
           <Settings size={18} />
           <span className="sidebar-text">إعدادات الحساب</span>
         </button>
 
         <button 
-          className="nav-link"
+          className="nav-link sidebar-btn danger"
           onClick={() => signOut()}
           style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px',
-            background: 'var(--danger-soft)', color: 'var(--danger)', fontWeight: '600',
+            color: 'var(--danger)', fontWeight: '600',
             border: 'none', cursor: 'pointer', transition: 'all 0.2s', width: '100%', textAlign: 'right', marginTop: '8px'
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--danger)'; e.currentTarget.style.color = 'white'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--danger-soft)'; e.currentTarget.style.color = 'var(--danger)'; }}
         >
           <LogOut size={18} style={{ transform: 'rotate(180deg)' }} />
           <span className="sidebar-text">تسجيل الخروج</span>

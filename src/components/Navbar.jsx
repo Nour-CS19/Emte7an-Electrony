@@ -35,30 +35,44 @@ const Navbar = () => {
         <span>امتحان أونلاين</span>
       </Link>
 
-      {/* Mobile toggle */}
-      <button 
-        className="mobile-menu-btn" 
-        onClick={() => {
-          if (user && profile) {
-            window.dispatchEvent(new CustomEvent('toggleMobileSidebar'));
-          } else {
-            setMobileOpen(!mobileOpen);
-          }
-        }} 
-        aria-label="القائمة"
-      >
-        {(!user || !profile) && mobileOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
+      {/* Mobile Controls */}
+      <div className="mobile-controls" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <button
+          className="theme-toggle mobile-only-toggle"
+          onClick={toggleTheme}
+          aria-label={darkMode ? 'الوضع الفاتح' : 'الوضع الداكن'}
+          title={darkMode ? 'الوضع الفاتح' : 'الوضع الداكن'}
+          style={{ padding: '8px', background: 'transparent' }}
+        >
+          {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+
+        {/* Mobile toggle */}
+        <button 
+          className="mobile-menu-btn" 
+          onClick={() => {
+            if (user && profile) {
+              window.dispatchEvent(new CustomEvent('toggleMobileSidebar'));
+            } else {
+              setMobileOpen(!mobileOpen);
+            }
+          }} 
+          aria-label="القائمة"
+        >
+          {(!user || !profile) && mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
 
       <div className={`nav-links ${mobileOpen && (!user || !profile) ? 'nav-links-open' : ''} ${user && profile ? 'desktop-only-flex' : ''}`}>
+        
+        {/* Desktop Theme Toggle */}
         <button
-          className="theme-toggle"
+          className="theme-toggle desktop-only-toggle"
           onClick={toggleTheme}
           aria-label={darkMode ? 'الوضع الفاتح' : 'الوضع الداكن'}
           title={darkMode ? 'الوضع الفاتح' : 'الوضع الداكن'}
         >
           {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          <span className="mobile-text">{darkMode ? 'تفعيل الوضع المضيء' : 'تفعيل الوضع المظلم'}</span>
         </button>
 
         {user && profile ? (

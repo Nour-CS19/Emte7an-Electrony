@@ -434,6 +434,19 @@ h1, h2, h3, h4, h5, h6 {
   transform: rotate(20deg);
 }
 
+.mobile-only-toggle {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only-toggle {
+    display: flex !important;
+  }
+  .desktop-only-toggle {
+    display: none !important;
+  }
+}
+
 .mobile-text {
   display: none;
 }
