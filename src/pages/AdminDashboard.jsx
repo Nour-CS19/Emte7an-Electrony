@@ -46,6 +46,10 @@ const AdminDashboard = () => {
     }
     
     fetchDashboardData();
+
+    const handleToggle = () => setIsSidebarOpen(prev => !prev);
+    window.addEventListener('toggleMobileSidebar', handleToggle);
+    return () => window.removeEventListener('toggleMobileSidebar', handleToggle);
   }, [profile?.id, profile?.is_super_admin]);
 
   const fetchDashboardData = async () => {
@@ -287,7 +291,7 @@ const AdminDashboard = () => {
             <div className="animate-fade-in">
               <div className="flex items-center gap-3 mb-6">
                 <button 
-                  className="btn btn-ghost" 
+                  className="btn btn-ghost desktop-only-flex" 
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                   style={{ padding: '8px', color: 'var(--text-muted)' }}
                 >

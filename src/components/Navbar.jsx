@@ -36,11 +36,21 @@ const Navbar = () => {
       </Link>
 
       {/* Mobile toggle */}
-      <button className="mobile-menu-btn" onClick={() => setMobileOpen(!mobileOpen)} aria-label="القائمة">
-        {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+      <button 
+        className="mobile-menu-btn" 
+        onClick={() => {
+          if (user && profile) {
+            window.dispatchEvent(new CustomEvent('toggleMobileSidebar'));
+          } else {
+            setMobileOpen(!mobileOpen);
+          }
+        }} 
+        aria-label="القائمة"
+      >
+        {(!user || !profile) && mobileOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      <div className={`nav-links ${mobileOpen ? 'nav-links-open' : ''}`}>
+      <div className={`nav-links ${mobileOpen && (!user || !profile) ? 'nav-links-open' : ''} ${user && profile ? 'desktop-only-flex' : ''}`}>
         <button
           className="theme-toggle"
           onClick={toggleTheme}

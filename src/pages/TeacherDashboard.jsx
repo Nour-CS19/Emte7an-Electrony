@@ -80,6 +80,9 @@ const TeacherDashboard = () => {
 
   useEffect(() => {
     fetchExams();
+    const handleToggle = () => setIsSidebarOpen(prev => !prev);
+    window.addEventListener('toggleMobileSidebar', handleToggle);
+    return () => window.removeEventListener('toggleMobileSidebar', handleToggle);
   }, []);
 
   const fetchExams = async () => {
@@ -294,7 +297,7 @@ const TeacherDashboard = () => {
           <div className="dashboard-header-actions flex justify-between items-center mb-8" style={{ flexWrap: 'wrap', gap: '16px' }}>
             <div className="flex items-center gap-3">
               <button 
-                className="btn btn-ghost" 
+                className="btn btn-ghost desktop-only-flex" 
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 style={{ padding: '8px', color: 'var(--text-muted)' }}
               >
